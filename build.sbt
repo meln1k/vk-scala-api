@@ -4,6 +4,8 @@ lazy val root = (project in file(".")).
     version := "0.1-SNAPSHOT",
     scalaVersion := "2.11.4",
     libraryDependencies ++= Seq(
+      "com.google.inject" % "guice" % "4.0-beta5",
+      "net.codingwell" %% "scala-guice" % "4.0.0-beta5",
       "com.typesafe.play" %% "play-json" % "2.3.4",
       "com.typesafe.play" %% "play-ws" % "2.3.4"),
     resolvers += "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
