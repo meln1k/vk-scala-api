@@ -67,7 +67,8 @@ class Api(implicit val accessToken: AccessToken) {
 
 object Api {
 
-  def fromLoginPass = ???
+  def fromLoginPass(login: String, password: String) = ???
 
   def withAccessToken(accessToken: AccessToken) = ???
+
 }
