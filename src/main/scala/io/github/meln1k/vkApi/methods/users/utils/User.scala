@@ -3,18 +3,26 @@ package io.github.meln1k.vkApi.methods.users.utils
 /**
  * Created by nmelkozerov on 16/11/14.
  */
+object User {
 
-case class User(uid: Long,
-                 first_name: String,
-                 last_name: String,
-                 verified: Option[Int],
-                 blacklisted: Option[Int],
-                 sex: Option[Int],
-                 bdate: Option[String],
-                 city: Option[String],
-                 country: Option[Int],
-                 home_town: Option[String],
-                 photo_50: Option[String],
+  import play.api.libs.json._
+  import play.api.libs.functional.syntax._
+
+  implicit val userReads = Json.reads[User]
+
+}
+
+case class User(id: Long,
+                first_name: String,
+                last_name: String,
+                verified: Option[Int],
+                //blacklisted: Option[Int],
+                sex: Option[Int],
+                bdate: Option[String],
+                city: Option[String],
+                country: Option[Int],
+                home_town: Option[String],
+                photo_50: Option[String] /*,
                  photo_100: Option[String],
                  photo_200_orig: Option[String],
                  photo_200: Option[String],
@@ -26,7 +34,8 @@ case class User(uid: Long,
                  domain: Option[String],
                  has_mobile: Option[Int],
                  contacts: Option[String],
-                 site: Option[String],
+                 site: Option[String]
+                 // TODO: implement it but no more than 22 field or you'll have to write own unappply https://github.com/scala/scala/pull/2305
                  education: Option[Education],
                  universities: Option[Seq[University]],
                  schools: Option[Seq[School]],
@@ -37,8 +46,7 @@ case class User(uid: Long,
                  counters: Option[Counters],
                  occupation: Option[Occupation],
                  nickname: Option[String]
-                 // TODO: implement it
-                 /*relatives: Option[],
+                 relatives: Option[],
                  relation: Option[],
                  personal: Option[],
                  connections: Option[],
@@ -87,16 +95,16 @@ case class School(id: Int,
 case class LastSeen(time: Long, platform: Int)
 
 case class Counters(albums: Int,
-                     videos: Int,
-                     audios: Int,
-                     notes: Int,
-                     friends: Int,
-                     groups: Int,
-                     online_friends: Int,
-                     mutual_friends: Int,
-                     user_videos: Int,
-                     followers: Int)
+                    videos: Int,
+                    audios: Int,
+                    notes: Int,
+                    friends: Int,
+                    groups: Int,
+                    online_friends: Int,
+                    mutual_friends: Int,
+                    user_videos: Int,
+                    followers: Int)
 
 case class Occupation(typeFoo: String, //type is a reserved keyword, using typeFoo instead
-                       id: Int,
-                       name: String)
+                      id: Int,
+                      name: String)
