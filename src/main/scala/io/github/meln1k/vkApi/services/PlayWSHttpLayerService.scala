@@ -20,7 +20,7 @@ class PlayWSHttpLayerService extends HttpLayerService {
   val wsClient: WSClient = new NingWSClient(builder.build())
 
   def apiRequest(methodName: String, params: Seq[(String,String)])(implicit accessToken: AccessToken) = {
-    wsClient.url(apiUrl)
+    wsClient.url(apiUrl+methodName)
       .withQueryString(params:_*)
       .withQueryString("access_token" -> accessToken.token)
       .withQueryString("v" -> apiVersion)

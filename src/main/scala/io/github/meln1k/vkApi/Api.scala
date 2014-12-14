@@ -1,9 +1,13 @@
 package io.github.meln1k.vkApi
 
+import io.github.meln1k.vkApi.methods.users.Users
 
-class Api(implicit val accessToken: AccessToken) {
 
-  def users = ???
+class Api(token: AccessToken) {
+
+  implicit val at = token
+
+  lazy val users = new Users
 
   def auth = ???
 
@@ -65,10 +69,12 @@ class Api(implicit val accessToken: AccessToken) {
 
 }
 
-object Api {
+object Api extends {
 
   def fromLoginPass(login: String, password: String) = ???
 
-  def withAccessToken(accessToken: AccessToken) = ???
+  def withAccessToken(accessToken: String) = ???
+
+  def anonymous = new Api(FakeAccessToken)
 
 }
