@@ -1,8 +1,7 @@
 import io.github.meln1k.vkApi
-import play.api.libs.json.{JsSuccess, Json}
+import io.github.meln1k.vkApi.models.user.{UserField, User, NameCase}
 import vkApi.FakeAccessToken
 import vkApi.methods.users.Users
-import vkApi.methods.users.utils.User
 import org.specs2.mutable._
 
 import scala.concurrent.Await
@@ -12,11 +11,20 @@ class UsersSpec extends Specification {
   implicit val token = FakeAccessToken
   val users = new Users
   "Users methods" should {
-    "retrieve user profile" in {
-      val user = users.get(Seq("1"))
+    "retrieve user profile with selected fields" in {
+      import UserField._
+      import NameCase._
+      val user = users.get(userIds = List("1"), fields = List(
+        uid,
+        first_name,
+        last_name,
+        online,
+        photo_200,
+        counters,
+        status
+      ), nameCase = List(nom))
       val res = Await.result(user, 2000 milli)
-      val validated = (res \ "response").validate[Seq[User]]
-      validated must haveClass[JsSuccess[User]]
+      res must beAnInstanceOf[Vector[User]]
     }
   }
 }
