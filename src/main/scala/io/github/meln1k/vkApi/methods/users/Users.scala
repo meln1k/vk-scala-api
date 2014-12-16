@@ -13,7 +13,9 @@ class Users(implicit accessToken: AccessToken) {
 
   val httpLayerService = inject[HttpLayerService]
 
-  def get(userIds: Seq[String] = Seq.empty, fields: Seq[UserField] = Seq.empty, nameCase: Option[NameCase] = None): Future[Vector[User]] = {
+  def get(userIds: Seq[String] = Seq.empty,
+          fields: Seq[UserField] = Seq.empty,
+          nameCase: Option[NameCase] = None): Future[Seq[User]] = {
     httpLayerService.apiRequest("users.get", Vector(
       "user_ids" -> userIds.mkString(","),
       "fields" -> fields.mkString(","),
