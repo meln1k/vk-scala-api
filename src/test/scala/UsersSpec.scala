@@ -22,7 +22,7 @@ class UsersSpec extends Specification {
         photo_200,
         counters,
         status
-      ), nameCase = List(nom))
+      ), nameCase = Some(nom))
       val res = Await.result(user, 2000 milli)
       res must beAnInstanceOf[Vector[User]]
     }

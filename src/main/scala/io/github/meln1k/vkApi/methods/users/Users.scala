@@ -13,11 +13,11 @@ class Users(implicit accessToken: AccessToken) {
 
   val httpLayerService = inject[HttpLayerService]
 
-  def get(userIds: Seq[String] = Seq.empty, fields: Seq[UserField] = Seq.empty, nameCase: Seq[NameCase] = Seq.empty): Future[Vector[User]] = {
+  def get(userIds: Seq[String] = Seq.empty, fields: Seq[UserField] = Seq.empty, nameCase: Option[NameCase] = None): Future[Vector[User]] = {
     httpLayerService.apiRequest("users.get", Vector(
       "user_ids" -> userIds.mkString(","),
       "fields" -> fields.mkString(","),
-      "name_case" -> nameCase.mkString(",")
+      "name_case" -> nameCase.fold("")(_.toString)
     )).map{json =>
       (json \ "response").validate[Vector[User]].get
     }
