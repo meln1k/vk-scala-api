@@ -25,7 +25,38 @@ class Users(implicit accessToken: AccessToken) {
     }
   }
 
-  def search = ???
+  def search( q: Option[String] = None,
+              sort: Option[Int] = None,
+              offset: Option[Int] = None,
+              count: Option[Int]= None,
+              fields: Seq[UserField]= Vector.empty,
+              city: Option[Int] = None,
+              country: Option[Int] = None,
+              hometown: Option[String] = None,
+              universityCountry: Option[Int] = None,
+              university: Option[Int] = None,
+              universityYear: Option[Int] = None,
+              universityFaculty: Option[Int] = None,
+              universityChair: Option[Int] = None,
+              sex: Option[Int] = None,
+              status: Option[Int] = None,
+              ageFrom: Option[Int] = None,
+              ageTo: Option[Int] = None,
+              birthDay: Option[Int] = None,
+              birthMonth: Option[Int] = None,
+              birthYear: Option[Int] = None,
+              online: Option[Boolean] = None,
+              hasPhoto: Option[Boolean] = None,
+              schoolCountry: Option[Int] = None,
+              schoolCity: Option[Int] = None,
+              schoolClass: Option[Int] = None,
+              school: Option[Int] = None,
+              schoolYear: Option[Int] = None,
+              religion: Option[String] = None,
+              interests: Option[String] = None,
+              company: Option[String] = None,
+              position: Option[String] = None,
+              groupId: Option[Int] = None): Future[Seq[User]] = ???
 
   def isAppUser = ???
 
