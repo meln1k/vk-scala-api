@@ -11,7 +11,7 @@ class UsersSpec extends Specification {
   implicit val token = FakeAccessToken
   val users = new Users
   "Users methods" should {
-    "retrieve user profile with selected fields" in {
+    "retrieve user profile with selected fields in users.get" in {
       import UserField._
       import NameCase._
       val user = users.get(userIds = List("1"), fields = List(
@@ -23,6 +23,12 @@ class UsersSpec extends Specification {
         counters,
         status
       ), nameCase = Some(nom))
+      val res = Await.result(user, 2000 milli)
+      res must beAnInstanceOf[Vector[User]]
+    }
+
+    "find users by some criteria" in {
+      val user  = users.search(query = Some("Vasya Babich"))
       val res = Await.result(user, 2000 milli)
       res must beAnInstanceOf[Vector[User]]
     }
