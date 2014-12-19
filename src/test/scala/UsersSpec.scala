@@ -24,13 +24,13 @@ class UsersSpec extends Specification {
         status
       ), nameCase = Some(nom))
       val res = Await.result(user, 2000 milli)
-      res must beAnInstanceOf[Vector[User]]
+      res must beAnInstanceOf[Seq[User]]
     }
 
     "find users by some criteria" in {
       val user  = users.search(query = Some("Vasya Babich"))
       val res = Await.result(user, 2000 milli)
-      res must beAnInstanceOf[Vector[User]]
+      res must beAnInstanceOf[Seq[User]]
     }
   }
 }

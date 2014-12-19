@@ -4,6 +4,7 @@ import io.github.meln1k.vkApi.models.error.ErrorMessage
 import io.github.meln1k.vkApi.models.user._
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.AccessToken
+import io.github.meln1k.vkApi.utils.ApiFutureUtils._
 import NameCase.NameCase
 import UserField.UserField
 import io.github.meln1k.vkApi.InjectHelper._
@@ -23,9 +24,7 @@ class Users(implicit accessToken: AccessToken) {
       "user_ids" -> userIds.mkString(","),
       "fields" -> fields.mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
-    )).map { json =>
-      (json \ "response").validate[Vector[User]].get
-    }
+    )).map2seq[User]
   }
 
   def search(query: Option[String] = None,
@@ -93,14 +92,7 @@ class Users(implicit accessToken: AccessToken) {
       "company" -> company,
       "position" -> position,
       "groupId" -> groupId
-    )).map { json =>
-      (json \ "response").validate[Vector[User]].getOrElse {
-        (json \ "error").validate[ErrorMessage]
-          .fold(
-            (_) => throw new Exception(s"Unknows json: ${json.toString}"),
-            (v) => throw new ApiError(code = v.error_code, message = v.error_msg))
-      }
-    }
+    )).map2seq[User]
   }
 
   def isAppUser = ???
