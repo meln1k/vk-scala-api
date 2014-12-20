@@ -16,5 +16,14 @@ object ApiFutureUtils {
             (valid) => throw new ApiError(code = valid.error_code, message = valid.error_msg))
       }
     }
+
+    def map2[A: Reads] = f.map { json =>
+      (json \ "response").validate[A].getOrElse {
+        (json \ "error").validate[ErrorMessage]
+          .fold(
+            (invalid) => throw new Exception(s"Unknown json: ${json.toString}"),
+            (valid) => throw new ApiError(code = valid.error_code, message = valid.error_msg))
+      }
+    }
   }
 }

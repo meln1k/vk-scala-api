@@ -32,5 +32,11 @@ class UsersSpec extends Specification {
       val res = Await.result(user, 2000 milli)
       res must beAnInstanceOf[Seq[User]]
     }
+
+    "tell if current user is app user" in {
+      val isAppUser = users.isAppUser()
+      val res = Await.result(isAppUser, 2000 milli)
+      res must beAnInstanceOf[Boolean]
+    }
   }
 }

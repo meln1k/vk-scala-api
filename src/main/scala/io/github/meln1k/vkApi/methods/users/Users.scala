@@ -95,7 +95,11 @@ class Users(implicit accessToken: AccessToken) {
     )).map2seq[User]
   }
 
-  def isAppUser = ???
+  def isAppUser(userId: Option[Int] = None) = {
+    httpLayerService.apiRequest("users.isAppUser", Vector(
+      "user_id" -> userId
+    )).map2[Int].map(_ != 0)
+  }
 
   def getSubscriptions = ???
 
