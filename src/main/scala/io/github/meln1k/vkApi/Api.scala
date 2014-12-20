@@ -5,7 +5,7 @@ import io.github.meln1k.vkApi.methods.users.Users
 
 class Api(token: AccessToken) {
 
-  implicit val at = token
+  private implicit val at = token
 
   lazy val users = new Users
 
@@ -73,7 +73,7 @@ object Api extends {
 
   def fromLoginPass(login: String, password: String) = ???
 
-  def withAccessToken(accessToken: String) = ???
+  def withAccessToken(accessToken: String) = new Api(RealAccessToken(accessToken))
 
   def anonymous = new Api(FakeAccessToken)
 
