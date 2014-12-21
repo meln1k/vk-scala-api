@@ -1,6 +1,7 @@
 import io.github.meln1k.vkApi
-import io.github.meln1k.vkApi.models.user.{UserField, User, NameCase}
-import vkApi.FakeAccessToken
+import io.github.meln1k.vkApi.models.user.{UserList, UserField, User, NameCase}
+import io.github.meln1k.vkApi.utils.ApiError
+import io.github.meln1k.vkApi.{RealAccessToken, FakeAccessToken}
 import vkApi.methods.users.Users
 import org.specs2.mutable._
 
@@ -30,13 +31,19 @@ class UsersSpec extends Specification {
     "find users by some criteria" in {
       val user  = users.search(query = Some("Vasya Babich"))
       val res = Await.result(user, 2000 milli)
-      res must beAnInstanceOf[Seq[User]]
+      res must beAnInstanceOf[UserList]
+    }
+
+    "throw an exeption when searching without read accessToken" in {
+      val usersWOToken = new Users()(FakeAccessToken)
+      val user  = usersWOToken.search(query = Some("Vasya Babich"))
+      Await.result(user, 2000 milli) must throwA[ApiError]
     }
 
     "tell if current user is app user" in {
       val isAppUser = users.isAppUser()
       val res = Await.result(isAppUser, 2000 milli)
-      res must beAnInstanceOf[Boolean]
+      res must haveClass[java.lang.Boolean]
     }
   }
 }

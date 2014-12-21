@@ -58,7 +58,7 @@ class Users(implicit accessToken: AccessToken) {
              interests: Option[String] = None,
              company: Option[String] = None,
              position: Option[String] = None,
-             groupId: Option[Int] = None): Future[Seq[User]] = {
+             groupId: Option[Int] = None): Future[UserList] = {
     httpLayerService.apiRequest("users.search", Vector(
       "q" -> query,
       "sort" -> sort,
@@ -92,7 +92,7 @@ class Users(implicit accessToken: AccessToken) {
       "company" -> company,
       "position" -> position,
       "groupId" -> groupId
-    )).map2seq[User]
+    )).map2[UserList]
   }
 
   def isAppUser(userId: Option[Int] = None) = {
