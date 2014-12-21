@@ -13,7 +13,7 @@ class PlayWSHttpLayerService extends HttpLayerService {
 
   private val apiUrl = "https://api.vk.com/method/"
 
-  private val apiVersion = "5.26"
+  private val apiVersion = "5.27"
 
   val config = new NingAsyncHttpClientConfigBuilder(DefaultWSClientConfig()).build()
   val builder = new AsyncHttpClientConfig.Builder(config)
