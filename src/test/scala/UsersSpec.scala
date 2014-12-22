@@ -1,5 +1,5 @@
 import io.github.meln1k.vkApi
-import io.github.meln1k.vkApi.models.user.{UserList, UserField, User, NameCase}
+import io.github.meln1k.vkApi.models.user._
 import io.github.meln1k.vkApi.utils.ApiError
 import io.github.meln1k.vkApi.{RealAccessToken, FakeAccessToken}
 import vkApi.methods.users.Users
@@ -44,6 +44,18 @@ class UsersSpec extends Specification {
       val isAppUser = users.isAppUser()
       val res = Await.result(isAppUser, 2000 milli)
       res must haveClass[java.lang.Boolean]
+    }
+
+    "get user subscriptions" in {
+      val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(false))
+      val res = Await.result(subscriptions, 2000 milli)
+      res must beLeft
+    }
+
+    "get extended user subscriptions" in {
+      val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(true))
+      val res = Await.result(subscriptions, 2000 milli)
+      res must beRight
     }
   }
 }
