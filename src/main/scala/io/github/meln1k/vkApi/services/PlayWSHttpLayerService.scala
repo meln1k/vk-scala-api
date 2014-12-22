@@ -21,7 +21,7 @@ class PlayWSHttpLayerService extends HttpLayerService {
 
   def apiRequest(methodName: String, params: Seq[(String,String)])(implicit accessToken: AccessToken) = {
     wsClient.url(apiUrl+methodName)
-      .withQueryString(params:_*)
+      .withQueryString(params.filter(_._2.nonEmpty):_*)
       .withQueryString("access_token" -> accessToken.token)
       .withQueryString("v" -> apiVersion)
       .get()
