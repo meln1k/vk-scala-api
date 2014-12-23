@@ -1,5 +1,5 @@
 import io.github.meln1k.vkApi
-import io.github.meln1k.vkApi.models.user.{UserList, UserField, User, NameCase}
+import io.github.meln1k.vkApi.models.user._
 import io.github.meln1k.vkApi.utils.ApiError
 import io.github.meln1k.vkApi.{RealAccessToken, FakeAccessToken}
 import vkApi.methods.users.Users
@@ -9,8 +9,9 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class UsersSpec extends Specification {
-  implicit val token = FakeAccessToken
+  implicit val testToken = RealAccessToken("66caf3a8a168a24755695a644492a41d4de2a5e117acc36b23920593bbe3dd7eeeb691b4a615d45dd9c46")
   val users = new Users
+  sequential
   "Users methods" should {
     "retrieve user profile with selected fields in users.get" in {
       import UserField._
@@ -44,6 +45,18 @@ class UsersSpec extends Specification {
       val isAppUser = users.isAppUser()
       val res = Await.result(isAppUser, 2000 milli)
       res must haveClass[java.lang.Boolean]
+    }
+
+    "get user subscriptions" in {
+      val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(false))
+      val res = Await.result(subscriptions, 2000 milli)
+      res must beLeft
+    }
+
+    "get extended user subscriptions" in {
+      val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(true), count = Some(21))
+      val res = Await.result(subscriptions, 2000 milli)
+      res must beRight
     }
   }
 }

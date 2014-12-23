@@ -95,13 +95,30 @@ class Users(implicit accessToken: AccessToken) {
     )).map2[UserList]
   }
 
-  def isAppUser(userId: Option[Int] = None) = {
+  def isAppUser(userId: Option[Int] = None): Future[Boolean] = {
     httpLayerService.apiRequest("users.isAppUser", Vector(
       "user_id" -> userId
     )).map2[Int].map(_ != 0)
   }
 
-  def getSubscriptions = ???
+  def getSubscriptions(userId: Option[Int] = None,
+                       extended: Option[Boolean] = None,
+                       offset: Int = 0,
+                       count: Option[Int] = None,
+                       fields: List[String] = Nil): Future[Either[SubscriptionsList, ExtendedSubscriptionsList]] = {
+    val jsVal = httpLayerService.apiRequest("users.getSubscriptions", Vector(
+      "user_id" -> userId,
+      "extended" -> extended,
+      "offset" -> offset.toString,
+      "count" -> count,
+      "fields" -> fields.mkString(",")
+    ))
+    if (extended.getOrElse(false)) {
+      jsVal.map2[ExtendedSubscriptionsList].map(Right(_))
+    } else {
+      jsVal.map2[SubscriptionsList].map(Left(_))
+    }
+  }
 
   def getFollowers = ???
 
