@@ -58,5 +58,10 @@ class UsersSpec extends Specification {
       val followers = users.getFollowers(Some(3))
       Await.result(followers, 2000 milli) must beAnInstanceOf[Seq[User]]
     }
+
+    "be reported" in {
+      val reportStatus = users.report(100, ComplaintType.spam)
+      Await.result(reportStatus, 2000 milli) must be equalTo(1)
+    }
   }
 }

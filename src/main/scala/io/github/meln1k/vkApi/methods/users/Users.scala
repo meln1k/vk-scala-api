@@ -1,6 +1,7 @@
 package io.github.meln1k.vkApi.methods.users
 
 import io.github.meln1k.vkApi.models.error.ErrorMessage
+import io.github.meln1k.vkApi.models.user.ComplaintType.ComplaintType
 import io.github.meln1k.vkApi.models.user._
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.AccessToken
@@ -130,7 +131,13 @@ class Users(implicit accessToken: AccessToken) {
     )).map2seq[User]
   }
 
-  def report = ???
+  def report(userId: Int, typeComp: ComplaintType, comment: String = "") = {
+    httpLayerService.apiRequest("users.report", Vector(
+      "user_id" -> userId.toString,
+      "type" -> typeComp.toString,
+      "comment" -> comment
+    )).map2[Int]
+  }
 
   def getNearby = ???
 }
