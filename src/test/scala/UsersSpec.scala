@@ -25,14 +25,12 @@ class UsersSpec extends Specification {
         counters,
         status
       ), nameCase = Some(nom))
-      val res = Await.result(user, 2000 milli)
-      res must beAnInstanceOf[Seq[User]]
+      Await.result(user, 2000 milli) must beAnInstanceOf[Seq[User]]
     }
 
     "find users by some criteria" in {
       val user  = users.search(query = Some("Vasya Babich"))
-      val res = Await.result(user, 2000 milli)
-      res must beAnInstanceOf[UserList]
+      Await.result(user, 2000 milli) must beAnInstanceOf[UserList]
     }
 
     "throw an exeption when searching without read accessToken" in {
@@ -43,20 +41,17 @@ class UsersSpec extends Specification {
 
     "tell if current user is app user" in {
       val isAppUser = users.isAppUser()
-      val res = Await.result(isAppUser, 2000 milli)
-      res must haveClass[java.lang.Boolean]
+      Await.result(isAppUser, 2000 milli) must haveClass[java.lang.Boolean]
     }
 
     "get user subscriptions" in {
       val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(false))
-      val res = Await.result(subscriptions, 2000 milli)
-      res must beLeft
+      Await.result(subscriptions, 2000 milli) must beLeft
     }
 
     "get extended user subscriptions" in {
       val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(true), count = Some(21))
-      val res = Await.result(subscriptions, 2000 milli)
-      res must beRight
+      Await.result(subscriptions, 2000 milli) must beRight
     }
 
     "get user followers" in {
