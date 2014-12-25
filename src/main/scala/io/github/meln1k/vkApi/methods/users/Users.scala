@@ -120,7 +120,15 @@ class Users(implicit accessToken: AccessToken) {
     }
   }
 
-  def getFollowers = ???
+  def getFollowers(userId: Option[Int] = None,
+                   fields: Seq[UserField] = Seq.empty,
+                   nameCase: Option[NameCase] = None): Future[Seq[User]] = {
+    httpLayerService.apiRequest("users.get", Vector(
+      "user_ids" -> userId,
+      "fields" -> fields.mkString(","),
+      "name_case" -> nameCase.fold("")(_.toString)
+    )).map2seq[User]
+  }
 
   def report = ???
 
