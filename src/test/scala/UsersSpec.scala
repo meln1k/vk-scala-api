@@ -16,7 +16,7 @@ class UsersSpec extends Specification {
     "retrieve user profile with selected fields in users.get" in {
       import UserField._
       import NameCase._
-      val user = users.get(userIds = List("1"), fields = List(
+      val user = users.get(userIds = Set("1"), fields = Set(
         uid,
         first_name,
         last_name,
@@ -55,8 +55,8 @@ class UsersSpec extends Specification {
     }
 
     "get user followers" in {
-      val followers = users.getFollowers(Some(3))
-      Await.result(followers, 2000 milli) must beAnInstanceOf[Seq[User]]
+      val followers = users.getFollowers(userId = Some(1), count = Some(10))
+      Await.result(followers, 2000 milli) must beAnInstanceOf[UserList]
     }
 
     "be reported" in {

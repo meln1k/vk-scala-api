@@ -18,12 +18,12 @@ class Users(implicit accessToken: AccessToken) {
 
   val httpLayerService = inject[HttpLayerService]
 
-  def get(userIds: Seq[String] = Seq.empty,
-          fields: Seq[UserField] = Seq.empty,
+  def get(userIds: Set[String] = Set.empty,
+          fields: Set[UserField] = Set.empty,
           nameCase: Option[NameCase] = None): Future[Seq[User]] = {
     httpLayerService.apiRequest("users.get", Vector(
       "user_ids" -> userIds.mkString(","),
-      "fields" -> fields.mkString(","),
+      "fields" -> (fields + UserField.uid).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
     )).map2seq[User]
   }
@@ -32,7 +32,7 @@ class Users(implicit accessToken: AccessToken) {
              sort: Option[Int] = None,
              offset: Option[Int] = None,
              count: Option[Int] = None,
-             fields: Seq[UserField] = Vector.empty,
+             fields: Set[UserField] = Set.empty,
              city: Option[Int] = None,
              country: Option[Int] = None,
              hometown: Option[String] = None,
@@ -65,7 +65,7 @@ class Users(implicit accessToken: AccessToken) {
       "sort" -> sort,
       "offset" -> offset,
       "count" -> count,
-      "fields" -> fields.mkString(","),
+      "fields" -> (fields + UserField.uid).mkString(","),
       "city" -> city,
       "country" -> country,
       "hometown" -> hometown,
@@ -106,7 +106,7 @@ class Users(implicit accessToken: AccessToken) {
                        extended: Option[Boolean] = None,
                        offset: Int = 0,
                        count: Option[Int] = None,
-                       fields: List[String] = Nil): Future[Either[SubscriptionsList, ExtendedSubscriptionsList]] = {
+                       fields: Set[String] = Set.empty): Future[Either[SubscriptionsList, ExtendedSubscriptionsList]] = {
     val jsVal = httpLayerService.apiRequest("users.getSubscriptions", Vector(
       "user_id" -> userId,
       "extended" -> extended,
@@ -122,16 +122,20 @@ class Users(implicit accessToken: AccessToken) {
   }
 
   def getFollowers(userId: Option[Int] = None,
-                   fields: Seq[UserField] = Seq.empty,
-                   nameCase: Option[NameCase] = None): Future[Seq[User]] = {
-    httpLayerService.apiRequest("users.get", Vector(
+                   fields: Set[UserField] = Set.empty,
+                   offset: Option[Int] = None,
+                   count: Option[Int] = None,
+                   nameCase: Option[NameCase] = None): Future[UserList] = {
+    httpLayerService.apiRequest("users.getFollowers", Vector(
       "user_ids" -> userId,
-      "fields" -> fields.mkString(","),
+      "fields" -> (fields + UserField.uid).mkString(","), //dirty hach for correct user processing
+      "offset" -> offset,
+      "count" -> count,
       "name_case" -> nameCase.fold("")(_.toString)
-    )).map2seq[User]
+    )).map2[UserList]
   }
 
-  def report(userId: Int, typeComp: ComplaintType, comment: String = "") = {
+  def report(userId: Int, typeComp: ComplaintType, comment: String = ""): Future[Int] = {
     httpLayerService.apiRequest("users.report", Vector(
       "user_id" -> userId.toString,
       "type" -> typeComp.toString,
@@ -144,7 +148,7 @@ class Users(implicit accessToken: AccessToken) {
                 accuracy: Option[Int] = None,
                 timeout: Int = 7200,
                 radius: Int = 1,
-                fields: Seq[UserField] = Seq.empty,
+                fields: Set[UserField] = Set.empty,
                 nameCase: Option[NameCase] = None): Future[UserList] = {
     httpLayerService.apiRequest("users.getNearby", Vector(
       "latitude" -> latitude.toString,
@@ -152,7 +156,7 @@ class Users(implicit accessToken: AccessToken) {
       "accuracy" -> accuracy,
       "timeout" -> timeout.toString,
       "radius" -> radius.toString,
-      "fields" -> fields.mkString(","),
+      "fields" -> (fields + UserField.uid).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
     )).map2[UserList]
   }
