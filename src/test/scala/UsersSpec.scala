@@ -63,5 +63,10 @@ class UsersSpec extends Specification {
       val reportStatus = users.report(100, ComplaintType.spam)
       Await.result(reportStatus, 2000 milli) must be equalTo(1)
     }
+
+    "be found is some area" in {
+      val foundUsers = users.getNearby(55.414327, 37.90047)
+      Await.result(foundUsers, 2000 milli) must beAnInstanceOf[UserList]
+    }
   }
 }

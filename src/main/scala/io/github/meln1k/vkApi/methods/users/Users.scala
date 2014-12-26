@@ -139,7 +139,23 @@ class Users(implicit accessToken: AccessToken) {
     )).map2[Int]
   }
 
-  def getNearby = ???
+  def getNearby(latitude: Double,
+                longitude: Double,
+                accuracy: Option[Int] = None,
+                timeout: Int = 7200,
+                radius: Int = 1,
+                fields: Seq[UserField] = Seq.empty,
+                nameCase: Option[NameCase] = None): Future[UserList] = {
+    httpLayerService.apiRequest("users.getNearby", Vector(
+      "latitude" -> latitude.toString,
+      "longitude" -> longitude.toString,
+      "accuracy" -> accuracy,
+      "timeout" -> timeout.toString,
+      "radius" -> radius.toString,
+      "fields" -> fields.mkString(","),
+      "name_case" -> nameCase.fold("")(_.toString)
+    )).map2[UserList]
+  }
 }
 
 object UserUtils {
