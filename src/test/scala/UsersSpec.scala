@@ -54,7 +54,7 @@ class UsersSpec extends Specification {
       Await.result(subscriptions, 2000 milli) must beRight
     }
 
-    "get user followers" in {
+    "get followers" in {
       val followers = users.getFollowers(userId = Some(1), count = Some(10))
       Await.result(followers, 2000 milli) must beAnInstanceOf[UserList]
     }
