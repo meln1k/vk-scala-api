@@ -16,4 +16,29 @@ class Auth(implicit accessToken: AccessToken) {
       "client_secret" -> clientSecret
     )).map2[Int].map(_ != 0)
   }
+
+  def signup(firstName: String,
+             lastName: String,
+             clientId: String,
+             clientSecret: String,
+             phone: String,
+             password: String,
+             testMode: Boolean = false,
+             voice: Boolean = false,
+             sex: Int,
+             sid: String) = {
+    httpLayerService.apiRequest("auth.signup", Vector(
+      "first_name" -> firstName,
+      "last_name" -> lastName,
+      "client_id" -> clientId,
+      "client_secret" -> clientSecret,
+      "phone" -> phone,
+      "password" -> password,
+      "test_mode" -> {if (testMode) 1 else 0}.toString,
+      "voice" -> {if (voice) 1 else 0}.toString,
+      "sex" -> sex.toString,
+      "sid" -> sid
+    )).map2[Sid]
+  }
+
 }
