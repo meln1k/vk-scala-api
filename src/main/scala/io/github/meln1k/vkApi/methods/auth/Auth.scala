@@ -41,4 +41,22 @@ class Auth(implicit accessToken: AccessToken) {
     )).map2[Sid]
   }
 
+  def confirm(clientId: String,
+              clientSecret: String,
+              phone: String,
+              code: String,
+              password: String,
+              testMode: Boolean,
+              intro: Int) = {
+    httpLayerService.apiRequest("auth.confirm", Vector(
+      "client_id" -> clientId,
+      "client_secret" -> clientSecret,
+      "phone" -> phone,
+      "code" -> code,
+      "password" -> password,
+      "test_mode" -> {if (testMode) 1 else 0}.toString,
+      "intro" -> intro.toString
+    )).map2[AuthConfirmation]
+  }
+
 }
