@@ -2,8 +2,10 @@ package io.github.meln1k.vkApi.methods.auth
 
 import io.github.meln1k.vkApi.AccessToken
 import io.github.meln1k.vkApi.InjectHelper._
+import io.github.meln1k.vkApi.models.auth.{AuthConfirmation, Sid}
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class Auth(implicit accessToken: AccessToken) {
 
@@ -59,4 +61,7 @@ class Auth(implicit accessToken: AccessToken) {
     )).map2[AuthConfirmation]
   }
 
+  def restore(phone: String) = httpLayerService.apiRequest("auth.restore", Vector(
+    "phone" -> phone
+  )).map2[AuthConfirmation]
 }
