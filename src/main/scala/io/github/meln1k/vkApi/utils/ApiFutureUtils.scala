@@ -1,6 +1,6 @@
 package io.github.meln1k.vkApi.utils
 
-import io.github.meln1k.vkApi.models.error.ErrorMessage
+import io.github.meln1k.vkApi.models.errors.ErrorMessage
 import play.api.libs.json.{Reads, JsValue}
 
 import scala.concurrent.Future

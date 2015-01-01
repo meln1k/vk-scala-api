@@ -1,4 +1,4 @@
-package io.github.meln1k.vkApi.models.user
+package io.github.meln1k.vkApi.models.users
 
 object UserField extends Enumeration {
 

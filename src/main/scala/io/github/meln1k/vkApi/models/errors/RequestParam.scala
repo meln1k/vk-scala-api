@@ -1,4 +1,4 @@
-package io.github.meln1k.vkApi.models.error
+package io.github.meln1k.vkApi.models.errors
 
 import play.api.libs.json.Json
 

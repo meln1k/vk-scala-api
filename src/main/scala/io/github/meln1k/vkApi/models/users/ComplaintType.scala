@@ -1,4 +1,4 @@
-package io.github.meln1k.vkApi.models.user
+package io.github.meln1k.vkApi.models.users
 
 /**
  * Created by nmelkozerov on 26/12/14.

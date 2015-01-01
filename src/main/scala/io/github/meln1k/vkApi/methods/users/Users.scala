@@ -1,15 +1,13 @@
 package io.github.meln1k.vkApi.methods.users
 
-import io.github.meln1k.vkApi.models.error.ErrorMessage
-import io.github.meln1k.vkApi.models.user.ComplaintType.ComplaintType
-import io.github.meln1k.vkApi.models.user._
+import io.github.meln1k.vkApi.models.users.ComplaintType.ComplaintType
+import io.github.meln1k.vkApi.models.users._
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.AccessToken
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
 import NameCase.NameCase
 import UserField.UserField
 import io.github.meln1k.vkApi.InjectHelper._
-import io.github.meln1k.vkApi.utils.ApiError
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import UserUtils._

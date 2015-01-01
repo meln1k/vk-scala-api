@@ -1,5 +1,5 @@
 import io.github.meln1k.vkApi
-import io.github.meln1k.vkApi.models.user._
+import io.github.meln1k.vkApi.models.users._
 import io.github.meln1k.vkApi.utils.ApiError
 import io.github.meln1k.vkApi.{RealAccessToken, FakeAccessToken}
 import vkApi.methods.users.Users
