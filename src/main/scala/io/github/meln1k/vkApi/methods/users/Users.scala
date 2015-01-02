@@ -10,7 +10,7 @@ import UserField.UserField
 import io.github.meln1k.vkApi.InjectHelper._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import UserUtils._
+import io.github.meln1k.vkApi.utils.OptionUtils._
 
 class Users(implicit accessToken: AccessToken) {
 
@@ -160,10 +160,3 @@ class Users(implicit accessToken: AccessToken) {
   }
 }
 
-object UserUtils {
-  implicit def intOpt2Str(i: Option[Int]): String = i.fold("")(_.toString)
-
-  implicit def strOpt2Str(s: Option[String]): String = s.getOrElse("")
-
-  implicit def boolOpt2Str(b: Option[Boolean]): String = b.fold("")(if (_) "1" else "0")
-}
