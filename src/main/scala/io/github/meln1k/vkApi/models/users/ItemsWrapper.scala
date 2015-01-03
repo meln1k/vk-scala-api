@@ -2,9 +2,6 @@ package io.github.meln1k.vkApi.models.users
 
 import play.api.libs.json.{JsSuccess, JsResult, JsValue, Reads}
 
-/**
- * Created by nmelkozerov on 23/12/14.
- */
 case class ItemsWrapper(data: Either[Community, User])
 
 object ItemsWrapper {
