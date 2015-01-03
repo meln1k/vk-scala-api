@@ -1,7 +1,7 @@
 package io.github.meln1k.vkApi.services
 
 import com.ning.http.client.AsyncHttpClientConfig
-import io.github.meln1k.vkApi.AccessToken
+import io.github.meln1k.vkApi.utils.AccessToken
 import play.api.libs.ws.{WSClient, DefaultWSClientConfig}
 import play.api.libs.ws.ning.{NingWSClient, NingAsyncHttpClientConfigBuilder}
 import javax.inject.Singleton

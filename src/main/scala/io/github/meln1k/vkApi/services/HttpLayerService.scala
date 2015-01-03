@@ -1,6 +1,7 @@
 package io.github.meln1k.vkApi.services
 
-import io.github.meln1k.vkApi.AccessToken
+import io.github.meln1k.vkApi.utils.AccessToken
+
 import scala.concurrent.Future
 import play.api.libs.json._
 

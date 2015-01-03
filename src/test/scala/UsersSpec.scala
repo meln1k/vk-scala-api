@@ -1,8 +1,6 @@
-import io.github.meln1k.vkApi
+import io.github.meln1k.vkApi.methods.Users
 import io.github.meln1k.vkApi.models.users._
-import io.github.meln1k.vkApi.utils.ApiError
-import io.github.meln1k.vkApi.{RealAccessToken, FakeAccessToken}
-import vkApi.methods.users.Users
+import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, ApiError}
 import org.specs2.mutable._
 
 import scala.concurrent.Await
@@ -59,12 +57,12 @@ class UsersSpec extends Specification {
       Await.result(followers, 2000 milli) must beAnInstanceOf[UserList]
     }
 
-    "be reported" in {
+    "report" in {
       val reportStatus = users.report(100, ComplaintType.spam)
       Await.result(reportStatus, 2000 milli) must be equalTo(1)
     }
 
-    "be found is some area" in {
+    "find someone is some area" in {
       val foundUsers = users.getNearby(55.414327, 37.90047)
       Await.result(foundUsers, 2000 milli) must beAnInstanceOf[UserList]
     }

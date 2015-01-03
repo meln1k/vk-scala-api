@@ -1,4 +1,4 @@
-package io.github.meln1k.vkApi
+package io.github.meln1k.vkApi.utils
 
 sealed abstract class AccessToken {
   def token: String

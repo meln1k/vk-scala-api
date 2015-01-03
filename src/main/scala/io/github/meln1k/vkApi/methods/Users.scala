@@ -1,16 +1,17 @@
-package io.github.meln1k.vkApi.methods.users
+package io.github.meln1k.vkApi.methods
 
+import io.github.meln1k.vkApi.utils.{AccessToken, InjectHelper}
+import InjectHelper._
 import io.github.meln1k.vkApi.models.users.ComplaintType.ComplaintType
+import io.github.meln1k.vkApi.models.users.NameCase.NameCase
+import io.github.meln1k.vkApi.models.users.UserField.UserField
 import io.github.meln1k.vkApi.models.users._
 import io.github.meln1k.vkApi.services.HttpLayerService
-import io.github.meln1k.vkApi.AccessToken
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
-import NameCase.NameCase
-import UserField.UserField
-import io.github.meln1k.vkApi.InjectHelper._
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 import io.github.meln1k.vkApi.utils.OptionUtils._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class Users(implicit accessToken: AccessToken) {
 

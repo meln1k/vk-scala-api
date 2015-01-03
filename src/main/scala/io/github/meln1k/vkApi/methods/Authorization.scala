@@ -1,13 +1,14 @@
-package io.github.meln1k.vkApi.methods.auth
+package io.github.meln1k.vkApi.methods
 
-import io.github.meln1k.vkApi.AccessToken
-import io.github.meln1k.vkApi.InjectHelper._
+import io.github.meln1k.vkApi.utils.{AccessToken, InjectHelper}
+import InjectHelper._
 import io.github.meln1k.vkApi.models.auth.{AuthConfirmation, Sid}
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class Auth(implicit accessToken: AccessToken) {
+class Authorization(implicit accessToken: AccessToken) {
 
   val httpLayerService = inject[HttpLayerService]
 

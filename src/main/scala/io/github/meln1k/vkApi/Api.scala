@@ -1,6 +1,7 @@
 package io.github.meln1k.vkApi
 
-import io.github.meln1k.vkApi.methods.users.Users
+import io.github.meln1k.vkApi.methods.Users
+import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, AccessToken}
 
 
 class Api(token: AccessToken) {
