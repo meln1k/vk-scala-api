@@ -32,7 +32,7 @@ class Users(implicit accessToken: AccessToken) {
     * `ins` — instrumental
     * `abl` — prepositional
     * }}}
-    * @return Returns a list of [[io.github.meln1k.vkApi.models.users.User]] objects.
+    * @return Returns a list of [[User]] objects.
     */
   def get(userIds: Set[String] = Set.empty,
           fields: Set[UserField] = Set.empty,
@@ -101,7 +101,7 @@ class Users(implicit accessToken: AccessToken) {
     * @param company Name of the company where users work.
     * @param position Job position.
     * @param groupId ID of a community to search in communities. ''positive number''
-    * @return Returns a list of [[io.github.meln1k.vkApi.models.users.User]] objects.
+    * @return Returns a list of [[User]] objects.
     */
   def search(query: Option[String] = None,
              sort: Option[Int] = None,
@@ -200,8 +200,8 @@ class Users(implicit accessToken: AccessToken) {
     * count — The number of results.
     * items — The list of IDs of users/communities followed by the user.
     * }}}
-    * If extended is set to 1, returns a combined list of [[io.github.meln1k.vkApi.models.users.User]] objects
-    * and [[io.github.meln1k.vkApi.models.users.Community]] objects.
+    * If extended is set to 1, returns a combined list of [[User]] objects
+    * and [[Community]] objects.
     */
   def getSubscriptions(userId: Option[Int] = None,
                        extended: Option[Boolean] = None,
@@ -238,7 +238,7 @@ class Users(implicit accessToken: AccessToken) {
     * `ins` — instrumental
     * `abl` — prepositional
     * }}}
-    * @return Returns a [[io.github.meln1k.vkApi.models.users.UserList]].
+    * @return Returns a [[UserList]].
     */
   def getFollowers(userId: Option[Int] = None,
                    offset: Option[Int] = None,
