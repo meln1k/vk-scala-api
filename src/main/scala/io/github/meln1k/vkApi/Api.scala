@@ -1,6 +1,6 @@
 package io.github.meln1k.vkApi
 
-import io.github.meln1k.vkApi.methods.Users
+import io.github.meln1k.vkApi.methods._
 import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, AccessToken}
 
 
@@ -10,7 +10,7 @@ class Api(token: AccessToken) {
 
   lazy val users = new Users
 
-  def auth = ???
+  lazy val auth = new Authorization
 
   def wall = ???
 
@@ -38,7 +38,7 @@ class Api(token: AccessToken) {
 
   def places = ???
 
-  def accout = ???
+  def account = ???
 
   def messages = ???
 
