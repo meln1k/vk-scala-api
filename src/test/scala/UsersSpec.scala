@@ -42,14 +42,9 @@ class UsersSpec extends Specification {
       Await.result(isAppUser, 2000 milli) must haveClass[java.lang.Boolean]
     }
 
-    "get user subscriptions" in {
-      val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(false))
-      Await.result(subscriptions, 2000 milli) must beLeft
-    }
-
     "get extended user subscriptions" in {
-      val subscriptions = users.getSubscriptions(userId = Some(3), extended = Some(true), count = Some(21))
-      Await.result(subscriptions, 2000 milli) must beRight
+      val subscriptions = users.getSubscriptions(userId = Some(3), count = Some(21))
+      Await.result(subscriptions, 2000 milli) must beAnInstanceOf[SubscriptionsList]
     }
 
     "get followers" in {
@@ -58,7 +53,7 @@ class UsersSpec extends Specification {
     }
 
     "report" in {
-      val reportStatus = users.report(100, ComplaintType.spam)
+      val reportStatus = users.report(1, ComplaintType.spam)
       Await.result(reportStatus, 2000 milli) must be equalTo(1)
     }
 

@@ -189,10 +189,6 @@ class Users(implicit accessToken: AccessToken) {
     * This is an open method; it does not require an access_token.
     *
     * @param userId User ID. ''positive number, current user id is used by default''
-    * @param extended {{{
-    * 1 — to return a combined list of users and communities
-    * 0 — to return separate lists of users and communities (default)
-    * }}} ''flag, either true or false''
     * @param offset Offset needed to return a specific subset of subscriptions. ''positive number''
     * @param count Number of users and communities to return. ''positive number, default 20, maximum value 200''
     * @param fields
@@ -204,22 +200,16 @@ class Users(implicit accessToken: AccessToken) {
     * and [[Community]] objects.
     */
   def getSubscriptions(userId: Option[Int] = None,
-                       extended: Option[Boolean] = None,
                        offset: Int = 0,
                        count: Option[Int] = None,
-                       fields: Set[String] = Set.empty): Future[Either[SubscriptionsList, ExtendedSubscriptionsList]] = {
-    val jsVal = httpLayerService.apiRequest("users.getSubscriptions", Vector(
+                       fields: Set[String] = Set.empty): Future[SubscriptionsList] = {
+    httpLayerService.apiRequest("users.getSubscriptions", Vector(
       "user_id" -> userId,
-      "extended" -> extended,
+      "extended" -> "1",
       "offset" -> offset.toString,
       "count" -> count,
       "fields" -> fields.mkString(",")
-    ))
-    if (extended.getOrElse(false)) {
-      jsVal.map2[ExtendedSubscriptionsList].map(Right(_))
-    } else {
-      jsVal.map2[SubscriptionsList].map(Left(_))
-    }
+    )).map2[SubscriptionsList]
   }
 
   /** Returns a list of IDs of followers of the user in question, sorted by date added, most recent first.
@@ -247,7 +237,7 @@ class Users(implicit accessToken: AccessToken) {
                    nameCase: Option[NameCase] = None): Future[UserList] = {
     httpLayerService.apiRequest("users.getFollowers", Vector(
       "user_ids" -> userId,
-      "fields" -> (fields + UserField.uid).mkString(","), //dirty hach for correct user processing
+      "fields" -> (fields + UserField.uid).mkString(","), //dirty hack for correct user processing
       "offset" -> offset,
       "count" -> count,
       "name_case" -> nameCase.fold("")(_.toString)
