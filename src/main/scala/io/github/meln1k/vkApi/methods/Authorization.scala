@@ -18,7 +18,7 @@ class Authorization(implicit accessToken: AccessToken) { this: HttpLayerService 
     * @param clientSecret
     * @return Returns 1 if the phone number is correct; otherwise returns 0.
     */
-  def checkPhone(phone: String, clientId: Int, clientSecret: String) = {
+  def checkPhone(phone: String, clientId: Long, clientSecret: String) = {
     apiRequest("auth.checkPhone", Vector(
       "phone" -> phone,
       "client_id" -> clientId.toString,

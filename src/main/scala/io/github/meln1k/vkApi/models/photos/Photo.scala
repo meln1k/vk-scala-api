@@ -20,10 +20,10 @@ import play.api.libs.json.Json
   * @param text Text describing the photo.
   * @param date Date (in Unix time) the photo was added.
   */
-case class Photo(id: Int,
-                 album_id: Int,
-                 owner_id: Int,
-                 user_id: Int,
+case class Photo(id: Long,
+                 album_id: Long,
+                 owner_id: Long,
+                 user_id: Long,
                  photo_75: String,
                  photo_130: String,
                  photo_604: String,

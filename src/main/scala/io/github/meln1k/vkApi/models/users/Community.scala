@@ -17,7 +17,7 @@ import play.api.libs.json.Json
   * @param photo_100 URL of the 100px-wide community logo.
   * @param photo_200 URL of the 200px-wide community logo.
   */
-case class Community(id: Int,
+case class Community(id: Long,
                      name: String,
                      screen_name: String,
                      is_closed: Int,

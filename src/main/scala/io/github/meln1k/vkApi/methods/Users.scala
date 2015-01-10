@@ -132,7 +132,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
              interests: Option[String] = None,
              company: Option[String] = None,
              position: Option[String] = None,
-             groupId: Option[Int] = None): Future[UserList] = {
+             groupId: Option[Long] = None): Future[UserList] = {
     apiRequest("users.search", Vector(
       "q" -> query,
       "sort" -> sort,
@@ -176,7 +176,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * @param userId User ID.
     * @return Returns `true` if the user installed the application; otherwise returns `false`.
     */
-  def isAppUser(userId: Option[Int] = None): Future[Boolean] = {
+  def isAppUser(userId: Option[Long] = None): Future[Boolean] = {
     apiRequest("users.isAppUser", Vector(
       "user_id" -> userId
     )).map2[Int].map(_ != 0)
@@ -197,7 +197,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * If extended is set to 1, returns a combined list of [[User]] objects
     * and [[Community]] objects.
     */
-  def getSubscriptions(userId: Option[Int] = None,
+  def getSubscriptions(userId: Option[Long] = None,
                        offset: Int = 0,
                        count: Option[Int] = None,
                        fields: Set[String] = Set.empty): Future[SubscriptionsList] = {
@@ -228,7 +228,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * }}}
     * @return Returns a [[UserList]].
     */
-  def getFollowers(userId: Option[Int] = None,
+  def getFollowers(userId: Option[Long] = None,
                    offset: Option[Int] = None,
                    count: Option[Int] = None,
                    fields: Set[UserField] = Set.empty,
@@ -256,7 +256,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * @param comment Comment describing the complaint.
     * @return Returns 1.
     */
-  def report(userId: Int, typeComp: ComplaintType, comment: String = ""): Future[Int] = {
+  def report(userId: Long, typeComp: ComplaintType, comment: String = ""): Future[Int] = {
     apiRequest("users.report", Vector(
       "user_id" -> userId.toString,
       "type" -> typeComp.toString,
