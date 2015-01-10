@@ -1,16 +1,13 @@
 package io.github.meln1k.vkApi.methods
 
-import io.github.meln1k.vkApi.utils.{AccessToken, InjectHelper}
-import InjectHelper._
+import io.github.meln1k.vkApi.utils.AccessToken
 import io.github.meln1k.vkApi.models.auth.{AuthConfirmation, Sid}
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class Authorization(implicit accessToken: AccessToken) {
-
-  val httpLayerService = inject[HttpLayerService]
+class Authorization(implicit accessToken: AccessToken) { this: HttpLayerService =>
 
   /** Checks a user's phone number for correctness.
     *
@@ -22,7 +19,7 @@ class Authorization(implicit accessToken: AccessToken) {
     * @return Returns 1 if the phone number is correct; otherwise returns 0.
     */
   def checkPhone(phone: String, clientId: Int, clientSecret: String) = {
-    httpLayerService.apiRequest("auth.checkPhone", Vector(
+    apiRequest("auth.checkPhone", Vector(
       "phone" -> phone,
       "client_id" -> clientId.toString,
       "client_secret" -> clientSecret
@@ -66,7 +63,7 @@ class Authorization(implicit accessToken: AccessToken) {
              voice: Boolean = false,
              sex: Int,
              sid: String) = {
-    httpLayerService.apiRequest("auth.signup", Vector(
+    apiRequest("auth.signup", Vector(
       "first_name" -> firstName,
       "last_name" -> lastName,
       "client_id" -> clientId,
@@ -102,7 +99,7 @@ class Authorization(implicit accessToken: AccessToken) {
               password: String,
               testMode: Boolean,
               intro: Int) = {
-    httpLayerService.apiRequest("auth.confirm", Vector(
+    apiRequest("auth.confirm", Vector(
       "client_id" -> clientId,
       "client_secret" -> clientSecret,
       "phone" -> phone,
@@ -128,7 +125,7 @@ class Authorization(implicit accessToken: AccessToken) {
     * &username={Phone number}&scope={Permissions list}
     * &sid={Parameter received with this method}&code={Received SMS code}
    */
-  def restore(phone: String) = httpLayerService.apiRequest("auth.restore", Vector(
+  def restore(phone: String) = apiRequest("auth.restore", Vector(
     "phone" -> phone
   )).map2[AuthConfirmation]
 }

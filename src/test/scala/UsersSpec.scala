@@ -1,5 +1,6 @@
 import io.github.meln1k.vkApi.methods.Users
 import io.github.meln1k.vkApi.models.users._
+import io.github.meln1k.vkApi.services.PlayWSHttpLayerService
 import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, ApiError}
 import org.specs2.mutable._
 
@@ -8,7 +9,7 @@ import scala.concurrent.duration._
 
 class UsersSpec extends Specification {
   implicit val testToken = RealAccessToken("66caf3a8a168a24755695a644492a41d4de2a5e117acc36b23920593bbe3dd7eeeb691b4a615d45dd9c46")
-  val users = new Users
+  val users = new Users with PlayWSHttpLayerService
   sequential
   "Users methods" should {
     "retrieve user profile with selected fields in users.get" in {
@@ -32,7 +33,7 @@ class UsersSpec extends Specification {
     }
 
     "throw an exeption when searching without read accessToken" in {
-      val usersWOToken = new Users()(FakeAccessToken)
+      val usersWOToken = new Users()(FakeAccessToken) with PlayWSHttpLayerService
       val user  = usersWOToken.search(query = Some("Vasya Babich"))
       Await.result(user, 2000 milli) must throwA[ApiError]
     }
@@ -53,7 +54,7 @@ class UsersSpec extends Specification {
     }
 
     "report" in {
-      val reportStatus = users.report(1, ComplaintType.spam)
+      val reportStatus = users.report(100, ComplaintType.spam)
       Await.result(reportStatus, 2000 milli) must be equalTo(1)
     }
 

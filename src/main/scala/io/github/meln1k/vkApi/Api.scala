@@ -1,6 +1,7 @@
 package io.github.meln1k.vkApi
 
 import io.github.meln1k.vkApi.methods._
+import io.github.meln1k.vkApi.services.PlayWSHttpLayerService
 import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, AccessToken}
 
 
@@ -8,9 +9,9 @@ class Api(token: AccessToken) {
 
   private implicit val at = token
 
-  lazy val users = new Users
+  lazy val users = new Users with PlayWSHttpLayerService
 
-  lazy val auth = new Authorization
+  lazy val auth = new Authorization with PlayWSHttpLayerService
 
   def wall = ???
 

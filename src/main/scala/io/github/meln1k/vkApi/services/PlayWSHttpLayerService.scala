@@ -4,12 +4,9 @@ import com.ning.http.client.AsyncHttpClientConfig
 import io.github.meln1k.vkApi.utils.AccessToken
 import play.api.libs.ws.{WSClient, DefaultWSClientConfig}
 import play.api.libs.ws.ning.{NingWSClient, NingAsyncHttpClientConfigBuilder}
-import javax.inject.Singleton
 import scala.concurrent.ExecutionContext.Implicits.global
 
-
-@Singleton
-class PlayWSHttpLayerService extends HttpLayerService {
+trait PlayWSHttpLayerService extends HttpLayerService {
 
   private val apiUrl = "https://api.vk.com/method/"
 

@@ -1,7 +1,6 @@
 package io.github.meln1k.vkApi.methods
 
-import io.github.meln1k.vkApi.utils.{AccessToken, InjectHelper}
-import InjectHelper._
+import io.github.meln1k.vkApi.utils.AccessToken
 import io.github.meln1k.vkApi.models.users.ComplaintType.ComplaintType
 import io.github.meln1k.vkApi.models.users.NameCase.NameCase
 import io.github.meln1k.vkApi.models.users.UserField.UserField
@@ -13,9 +12,8 @@ import io.github.meln1k.vkApi.utils.OptionUtils._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Users(implicit accessToken: AccessToken) {
+class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
 
-  val httpLayerService = inject[HttpLayerService]
 
   /** Returns detailed information on users.
     *
@@ -37,7 +35,7 @@ class Users(implicit accessToken: AccessToken) {
   def get(userIds: Set[String] = Set.empty,
           fields: Set[UserField] = Set.empty,
           nameCase: Option[NameCase] = None): Future[Seq[User]] = {
-    httpLayerService.apiRequest("users.get", Vector(
+    apiRequest("users.get", Vector(
       "user_ids" -> userIds.mkString(","),
       "fields" -> (fields + UserField.uid).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
@@ -135,7 +133,7 @@ class Users(implicit accessToken: AccessToken) {
              company: Option[String] = None,
              position: Option[String] = None,
              groupId: Option[Int] = None): Future[UserList] = {
-    httpLayerService.apiRequest("users.search", Vector(
+    apiRequest("users.search", Vector(
       "q" -> query,
       "sort" -> sort,
       "offset" -> offset,
@@ -179,7 +177,7 @@ class Users(implicit accessToken: AccessToken) {
     * @return Returns `true` if the user installed the application; otherwise returns `false`.
     */
   def isAppUser(userId: Option[Int] = None): Future[Boolean] = {
-    httpLayerService.apiRequest("users.isAppUser", Vector(
+    apiRequest("users.isAppUser", Vector(
       "user_id" -> userId
     )).map2[Int].map(_ != 0)
   }
@@ -203,7 +201,7 @@ class Users(implicit accessToken: AccessToken) {
                        offset: Int = 0,
                        count: Option[Int] = None,
                        fields: Set[String] = Set.empty): Future[SubscriptionsList] = {
-    httpLayerService.apiRequest("users.getSubscriptions", Vector(
+    apiRequest("users.getSubscriptions", Vector(
       "user_id" -> userId,
       "extended" -> "1",
       "offset" -> offset.toString,
@@ -235,7 +233,7 @@ class Users(implicit accessToken: AccessToken) {
                    count: Option[Int] = None,
                    fields: Set[UserField] = Set.empty,
                    nameCase: Option[NameCase] = None): Future[UserList] = {
-    httpLayerService.apiRequest("users.getFollowers", Vector(
+    apiRequest("users.getFollowers", Vector(
       "user_ids" -> userId,
       "fields" -> (fields + UserField.uid).mkString(","), //dirty hack for correct user processing
       "offset" -> offset,
@@ -259,7 +257,7 @@ class Users(implicit accessToken: AccessToken) {
     * @return Returns 1.
     */
   def report(userId: Int, typeComp: ComplaintType, comment: String = ""): Future[Int] = {
-    httpLayerService.apiRequest("users.report", Vector(
+    apiRequest("users.report", Vector(
       "user_id" -> userId.toString,
       "type" -> typeComp.toString,
       "comment" -> comment
@@ -285,7 +283,7 @@ class Users(implicit accessToken: AccessToken) {
                 radius: Int = 1,
                 fields: Set[UserField] = Set.empty,
                 nameCase: Option[NameCase] = None): Future[UserList] = {
-    httpLayerService.apiRequest("users.getNearby", Vector(
+    apiRequest("users.getNearby", Vector(
       "latitude" -> latitude.toString,
       "longitude" -> longitude.toString,
       "accuracy" -> accuracy,
