@@ -30,6 +30,6 @@ class Photos(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "comment_privacy" -> comment_privacy,
       "upload_by_admins_only" -> upload_by_admins_only,
       "comments_disabled" -> comments_disabled
-    )).map2(CreateAlbumResult)
+    )).map2[CreateAlbumResult]
   }
 }
