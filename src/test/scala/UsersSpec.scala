@@ -34,7 +34,7 @@ class UsersSpec extends Specification with NoTimeConversions {
       Await.result(user, timeout) must beAnInstanceOf[UserList]
     }
 
-    "throw an exeption when searching without read accessToken" in {
+    "throw an exception when searching without read accessToken" in {
       val usersWOToken = new Users()(FakeAccessToken) with PlayWSHttpLayerService
       val user  = usersWOToken.search(query = Some("Vasya Babich"))
       Await.result(user, timeout) must throwA[ApiError]
