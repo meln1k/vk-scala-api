@@ -8,17 +8,15 @@ import org.specs2.time.NoTimeConversions
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class UsersSpec extends Specification with NoTimeConversions {
-  implicit val testToken = RealAccessToken("66caf3a8a168a24755695a644492a41d4de2a5e117acc36b23920593bbe3dd7eeeb691b4a615d45dd9c46")
+class UsersSpec extends VkSpecification {
   val users = new Users with PlayWSHttpLayerService
-  val timeout = 5.second
   sequential
   "Users methods" should {
     "retrieve user profile with selected fields in users.get" in {
       import UserField._
       import NameCase._
-      val user = users.get(userIds = Set("1"), fields = Set(
-        uid,
+      val user = users.get(userIds = Set(testUserId.toString), fields = Set(
+        id,
         first_name,
         last_name,
         online,
@@ -56,7 +54,7 @@ class UsersSpec extends Specification with NoTimeConversions {
     }
 
     "report" in {
-      val reportStatus = users.report(100, ComplaintType.spam)
+      val reportStatus = users.report(userId = testUserId, ComplaintType.spam)
       Await.result(reportStatus, timeout) must be equalTo(1)
     }
 

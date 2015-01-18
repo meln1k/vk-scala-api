@@ -37,7 +37,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
           nameCase: Option[NameCase] = None): Future[Seq[User]] = {
     apiRequest("users.get", Vector(
       "user_ids" -> userIds.mkString(","),
-      "fields" -> (fields + UserField.uid).mkString(","),
+      "fields" -> (fields + UserField.id).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
     )).map2seq[User]
   }
@@ -138,7 +138,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "sort" -> sort,
       "offset" -> offset,
       "count" -> count,
-      "fields" -> (fields + UserField.uid).mkString(","),
+      "fields" -> (fields + UserField.id).mkString(","),
       "city" -> city,
       "country" -> country,
       "hometown" -> hometown,
@@ -235,7 +235,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
                    nameCase: Option[NameCase] = None): Future[UserList] = {
     apiRequest("users.getFollowers", Vector(
       "user_ids" -> userId,
-      "fields" -> (fields + UserField.uid).mkString(","), //dirty hack for correct user processing
+      "fields" -> (fields + UserField.id).mkString(","), //dirty hack for correct user processing
       "offset" -> offset,
       "count" -> count,
       "name_case" -> nameCase.fold("")(_.toString)
@@ -289,7 +289,7 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "accuracy" -> accuracy,
       "timeout" -> timeout.toString,
       "radius" -> radius.toString,
-      "fields" -> (fields + UserField.uid).mkString(","),
+      "fields" -> (fields + UserField.id).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
     )).map2[UserList]
   }
