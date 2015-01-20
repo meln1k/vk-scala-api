@@ -1,5 +1,6 @@
 package io.github.meln1k.vkApi.methods
 
+import io.github.meln1k.vkApi.models.geo.{Longitude, Latitude}
 import io.github.meln1k.vkApi.utils.AccessToken
 import io.github.meln1k.vkApi.models.users.ComplaintType.ComplaintType
 import io.github.meln1k.vkApi.models.users.NameCase.NameCase
@@ -7,7 +8,7 @@ import io.github.meln1k.vkApi.models.users.UserField.UserField
 import io.github.meln1k.vkApi.models.users._
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
-import io.github.meln1k.vkApi.utils.OptionUtils._
+import io.github.meln1k.vkApi.utils.ToStringConverters._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,11 +33,11 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * }}}
     * @return Returns a list of [[User]] objects.
     */
-  def get(userIds: Set[String] = Set.empty,
+  def get(userIds: Set[UserId] = Set.empty,
           fields: Set[UserField] = Set.empty,
           nameCase: Option[NameCase] = None): Future[Seq[User]] = {
     apiRequest("users.get", Vector(
-      "user_ids" -> userIds.mkString(","),
+      "user_ids" -> userIds.map(_.value).mkString(","),
       "fields" -> (fields + UserField.id).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
     )).map2seq[User]
@@ -176,9 +177,9 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * @param userId User ID.
     * @return Returns `true` if the user installed the application; otherwise returns `false`.
     */
-  def isAppUser(userId: Option[Long] = None): Future[Boolean] = {
+  def isAppUser(userId: Option[UserId] = None): Future[Boolean] = {
     apiRequest("users.isAppUser", Vector(
-      "user_id" -> userId
+      "user_id" -> userId.map(_.value)
     )).map2[Int].map(_ != 0)
   }
 
@@ -197,12 +198,12 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * If extended is set to 1, returns a combined list of [[User]] objects
     * and [[Community]] objects.
     */
-  def getSubscriptions(userId: Option[Long] = None,
+  def getSubscriptions(userId: Option[UserId] = None,
                        offset: Int = 0,
                        count: Option[Int] = None,
                        fields: Set[String] = Set.empty): Future[SubscriptionsList] = {
     apiRequest("users.getSubscriptions", Vector(
-      "user_id" -> userId,
+      "user_id" -> userId.map(_.value),
       "extended" -> "1",
       "offset" -> offset.toString,
       "count" -> count,
@@ -228,13 +229,13 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * }}}
     * @return Returns a [[UserList]].
     */
-  def getFollowers(userId: Option[Long] = None,
+  def getFollowers(userId: Option[UserId] = None,
                    offset: Option[Int] = None,
                    count: Option[Int] = None,
                    fields: Set[UserField] = Set.empty,
                    nameCase: Option[NameCase] = None): Future[UserList] = {
     apiRequest("users.getFollowers", Vector(
-      "user_ids" -> userId,
+      "user_ids" -> userId.map(_.value),
       "fields" -> (fields + UserField.id).mkString(","), //dirty hack for correct user processing
       "offset" -> offset,
       "count" -> count,
@@ -256,9 +257,9 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
     * @param comment Comment describing the complaint.
     * @return Returns 1.
     */
-  def report(userId: Long, typeComp: ComplaintType, comment: String = ""): Future[Int] = {
+  def report(userId: UserId, typeComp: ComplaintType, comment: String = ""): Future[Int] = {
     apiRequest("users.report", Vector(
-      "user_id" -> userId.toString,
+      "user_id" -> userId.value.toString,
       "type" -> typeComp.toString,
       "comment" -> comment
     )).map2[Int]
@@ -276,8 +277,8 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
    * @param nameCase
    * @return
    */
-  def getNearby(latitude: Double,
-                longitude: Double,
+  def getNearby(latitude: Latitude,
+                longitude: Longitude,
                 accuracy: Option[Int] = None,
                 timeout: Int = 7200,
                 radius: Int = 1,
