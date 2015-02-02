@@ -20,7 +20,7 @@ class Photos(implicit accessToken: AccessToken) { this: HttpLayerService =>
 
 
   /** Creates album in specified group/user page, and returns info back.
-    * Application must have access to user's/group photos
+    * Application must have access to user's/group photos.
     *
     * @param title Title of the album. ''Minimum two characters.''
     * @param group_id  ''id'' of group/user page, where album is created. Requires "0" to create album on your page.
@@ -71,7 +71,7 @@ class Photos(implicit accessToken: AccessToken) { this: HttpLayerService =>
   }
 
 
-  /**
+  /** Edits album's info. Application must have access to user's/group photos.
    *
    * @param album_id ''id'' of album being edited.
    * @param title New title for album.
@@ -121,6 +121,25 @@ class Photos(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "comments_disabled" -> comments_disabled
     )).map2[Int].map(_ != 0)
   }
+
+  def getAlbums(owner_id: Long,
+                album_ids: Set[Long] = Set.empty,
+                offset: Option[Long] = None,
+                count: Option[Long] = None,
+                need_system: Option[Int] = None,
+                need_covers: Option[Int] = None,
+                photo_sizes: Option[Int] = None): Future[AlbumList] = {
+    apiRequest("photos.getAlbums", Vector(
+      "owner_id" -> owner_id.toString,
+      "album_ids" -> album_ids.mkString(","),
+      "offset" -> offset,
+      "count" -> count,
+      "need_system" -> need_system,
+      "need_covers" -> need_covers,
+      "photo_sizes" -> photo_sizes
+    )).map2[AlbumList]
+  }
+
 
 
 }

@@ -37,5 +37,13 @@ class PhotosSpec extends Specification with NoTimeConversions {
       val res = photos.editAlbum(211177374, Some("edited album"), Some("edited description"), -85916709)
       Await.result(res, timeout) must be equalTo true
     }
+    "[getAlbums] should return list of albums" in {
+      val res = photos.getAlbums(23309868, Set(210846651, 210842967))
+      Await.result(res, timeout) must beAnInstanceOf[AlbumList]
+    }
+    "[getAlbums] same for groups" in {
+      val res = photos.getAlbums(-85916709, Set(211177340, 211177406))
+      Await.result(res, timeout) must beAnInstanceOf[AlbumList]
+    }
   }
 }
