@@ -1,5 +1,5 @@
 import io.github.meln1k.vkApi.methods.Wall
-import io.github.meln1k.vkApi.models.wall.{Post, PostList}
+import io.github.meln1k.vkApi.models.wall.{Post, PostsList}
 import io.github.meln1k.vkApi.services.PlayWSHttpLayerService
 import io.github.meln1k.vkApi.utils.RealAccessToken
 import org.specs2.mutable.Specification
@@ -10,5 +10,13 @@ import scala.concurrent.duration._
 
 class WallSpec extends VkSpecification {
 
+  val wall = new Wall with PlayWSHttpLayerService
 
+  "Wall methods" should {
+    "get posts" in {
+      val post = wall.get(ownerId = 185014513, offset=4, count = 1)
+      val postRes = Await.result(post, timeout)
+      postRes must beAnInstanceOf[PostsList]
+    }
+  }
 }
