@@ -23,18 +23,18 @@ import play.api.libs.json.Json
 case class Photo(id: Long,
                  album_id: Long,
                  owner_id: Long,
-                 user_id: Long,
-                 photo_75: String,
-                 photo_130: String,
-                 photo_604: String,
-                 photo_807: String,
-                 photo_1280: String,
-                 photo_2560: String,
+                 user_id: Option[Long],
+                 photo_75: Option[String],
+                 photo_130: Option[String],
+                 photo_604: Option[String],
+                 photo_807: Option[String],
+                 photo_1280: Option[String],
+                 photo_2560: Option[String],
                  width: Int,
                  height: Int,
                  text: String,
                  date: Long)
 
 object Photo {
-  implicit val photoReads = Json.reads[Photo]
+  implicit val photoReads = Json.format[Photo]
 }

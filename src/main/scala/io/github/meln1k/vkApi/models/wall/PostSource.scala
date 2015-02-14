@@ -27,7 +27,7 @@ import play.api.libs.json.Json
   * }}}
   * @param url External link to post source.
   */
-case class PostSource(`type`: String, platform: String, data: Option[String], url: Option[String])
+case class PostSource(`type`: String, platform: Option[String], data: Option[String], url: Option[String])
 
 object PostSource {
   implicit val postSourceReads = Json.reads[PostSource]
