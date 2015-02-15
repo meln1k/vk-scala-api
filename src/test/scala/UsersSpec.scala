@@ -1,4 +1,5 @@
 import io.github.meln1k.vkApi.methods.Users
+import io.github.meln1k.vkApi.models.geo.{Longitude, Latitude}
 import io.github.meln1k.vkApi.models.users._
 import io.github.meln1k.vkApi.services.PlayWSHttpLayerService
 import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, ApiError}
@@ -15,7 +16,7 @@ class UsersSpec extends VkSpecification {
     "retrieve user profile with selected fields in users.get" in {
       import UserField._
       import NameCase._
-      val user = users.get(userIds = Set(testUserId.toString), fields = Set(
+      val user = users.get(userIds = Set(testUserId), fields = Set(
         id,
         first_name,
         last_name,
@@ -44,12 +45,12 @@ class UsersSpec extends VkSpecification {
     }
 
     "get extended user subscriptions" in {
-      val subscriptions = users.getSubscriptions(userId = Some(3), count = Some(21))
+      val subscriptions = users.getSubscriptions(userId = Some(testUserId), count = Some(21))
       Await.result(subscriptions, timeout) must beAnInstanceOf[SubscriptionsList]
     }
 
     "get followers" in {
-      val followers = users.getFollowers(userId = Some(1), count = Some(10))
+      val followers = users.getFollowers(userId = Some(testUserId), count = Some(10))
       Await.result(followers, timeout) must beAnInstanceOf[UserList]
     }
 
@@ -59,7 +60,7 @@ class UsersSpec extends VkSpecification {
     }
 
     "find someone is some area" in {
-      val foundUsers = users.getNearby(55.414327, 37.90047)
+      val foundUsers = users.getNearby(Latitude(55.414327), Longitude(37.90047))
       Await.result(foundUsers, timeout) must beAnInstanceOf[UserList]
     }
   }
