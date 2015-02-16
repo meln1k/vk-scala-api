@@ -18,5 +18,12 @@ class WallSpec extends VkSpecification {
       val postRes = Await.result(post, timeout)
       postRes must beAnInstanceOf[PostsList]
     }
+
+    "find posts" in {
+      val post = wall.search(ownerId = 185014513, count = 10, query = "test")
+      val postRes = Await.result(post, timeout)
+      postRes must beAnInstanceOf[PostsList]
+      postRes.items.exists(_.text.contains("test")) must be equalTo(true)
+    }
   }
 }

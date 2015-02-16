@@ -29,4 +29,21 @@ class Wall(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "extended" -> extended
     )).map2[PostsList]
   }
+
+  def search(ownerId: Long = 0,
+             domain: Option[String] = None,
+             query: String,
+             ownersOnly: Boolean = false,
+             offset: Int = 0,
+             count: Int = 20,
+             extended: Boolean = false): Future[PostsList] = {
+    apiRequest("wall.get", Vector(
+      "owner_id" -> ownerId.toString,
+      "domain" -> domain,
+      "query" -> query,
+      "offset" -> offset.toString,
+      "count" -> count.toString,
+      "extended" -> extended
+    )).map2[PostsList]
+  }
 }
