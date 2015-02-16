@@ -46,4 +46,11 @@ class Wall(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "extended" -> extended
     )).map2[PostsList]
   }
+
+  def getById(posts: Seq[String], copyHistoryDepth: Int = 2) = {
+    apiRequest("wall.getById", Vector(
+      "posts" -> posts.mkString(","),
+      "copy_history_depth" -> copyHistoryDepth.toString
+    )).map2seq[Post]
+  }
 }

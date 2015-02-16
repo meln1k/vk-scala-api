@@ -25,5 +25,13 @@ class WallSpec extends VkSpecification {
       postRes must beAnInstanceOf[PostsList]
       postRes.items.exists(_.text.contains("test")) must be equalTo(true)
     }
+
+    "get posts by id" in {
+      val post = wall.getById(Seq("185014513_877"))
+      val postRes = Await.result(post, timeout)
+      postRes must beAnInstanceOf[Seq[Post]]
+      postRes.exists(_.text.contains("test1")) must be equalTo(true)
+    }
+
   }
 }
