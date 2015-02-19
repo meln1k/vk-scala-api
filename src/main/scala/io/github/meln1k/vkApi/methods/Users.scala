@@ -285,8 +285,8 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
                 fields: Set[UserField] = Set.empty,
                 nameCase: Option[NameCase] = None): Future[UserList] = {
     apiRequest("users.getNearby", Vector(
-      "latitude" -> latitude.toString,
-      "longitude" -> longitude.toString,
+      "latitude" -> latitude.value.toString,
+      "longitude" -> longitude.value.toString,
       "accuracy" -> accuracy,
       "timeout" -> timeout.toString,
       "radius" -> radius.toString,
