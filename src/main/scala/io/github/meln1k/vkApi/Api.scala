@@ -15,6 +15,8 @@ class Api(token: AccessToken) {
 
   lazy val auth = new Authorization with PlayWSHttpLayerService
 
+  lazy val groups = new Groups with PlayWSHttpLayerService
+
   def wall = ???
 
   def photos = ???
@@ -30,8 +32,6 @@ class Api(token: AccessToken) {
   def audio = ???
 
   def pages = ???
-
-  def groups = ???
 
   def board = ???
 
