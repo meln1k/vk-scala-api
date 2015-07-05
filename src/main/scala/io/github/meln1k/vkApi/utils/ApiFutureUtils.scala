@@ -12,7 +12,7 @@ object ApiFutureUtils {
       (json \ "response").validate[Seq[A]].getOrElse {
         (json \ "error").validate[ErrorMessage]
           .fold(
-            (invalid) => throw new Exception(s"Unknown json: ${json.toString}"),
+            (invalid) => throw new Exception(s"Unknown json: ${json.toString()}"),
             (valid) => throw new ApiError(code = valid.error_code, message = valid.error_msg))
       }
     }
@@ -21,7 +21,7 @@ object ApiFutureUtils {
       (json \ "response").validate[A].getOrElse {
         (json \ "error").validate[ErrorMessage]
           .fold(
-            (invalid) => throw new Exception(s"Unknown json: ${json.toString}"),
+            (invalid) => throw new Exception(s"Unknown json: ${json.toString()}"),
             (valid) => throw new ApiError(code = valid.error_code, message = valid.error_msg))
       }
     }
