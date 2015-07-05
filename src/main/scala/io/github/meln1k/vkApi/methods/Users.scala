@@ -1,6 +1,7 @@
 package io.github.meln1k.vkApi.methods
 
 import io.github.meln1k.vkApi.models.geo.{Longitude, Latitude}
+import io.github.meln1k.vkApi.models.users.User2Field.User2Field
 import io.github.meln1k.vkApi.utils.AccessToken
 import io.github.meln1k.vkApi.models.users.ComplaintType.ComplaintType
 import io.github.meln1k.vkApi.models.users.NameCase.NameCase
@@ -8,7 +9,7 @@ import io.github.meln1k.vkApi.models.users.UserField.UserField
 import io.github.meln1k.vkApi.models.users._
 import io.github.meln1k.vkApi.services.HttpLayerService
 import io.github.meln1k.vkApi.utils.ApiFutureUtils._
-import io.github.meln1k.vkApi.utils.ToStringConverters._
+import io.github.meln1k.vkApi.utils.OptionUtils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,6 +42,16 @@ class Users(implicit accessToken: AccessToken) { this: HttpLayerService =>
       "fields" -> (fields + UserField.id).mkString(","),
       "name_case" -> nameCase.fold("")(_.toString)
     )).map2seq[User]
+  }
+
+  def get2(userIds: Set[String] = Set.empty,
+          fields: Set[User2Field] = Set.empty,
+          nameCase: Option[NameCase] = None): Future[Seq[User2]] = {
+    apiRequest("users.get", Vector(
+      "user_ids" -> userIds.mkString(","),
+      "fields" -> User2Field.values.mkString(","),
+      "name_case" -> nameCase.fold("")(_.toString)
+    )).map2seq[User2]
   }
 
   /** Returns a list of users matching the search criteria.

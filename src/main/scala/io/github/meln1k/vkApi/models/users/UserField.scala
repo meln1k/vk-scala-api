@@ -14,3 +14,15 @@ object UserField extends Enumeration {
   status
   = Value
 }
+object User2Field extends Enumeration {
+
+  type User2Field = Value
+
+  val
+  sex,
+  bdate,
+  city,
+  country,
+  domain
+  = Value
+}
