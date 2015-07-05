@@ -1,8 +1,10 @@
 package io.github.meln1k.vkApi
 
 import io.github.meln1k.vkApi.methods._
+import io.github.meln1k.vkApi.models.auth.Permission
+import io.github.meln1k.vkApi.models.auth.Permission.Permission
 import io.github.meln1k.vkApi.services.PlayWSHttpLayerService
-import io.github.meln1k.vkApi.utils.{FakeAccessToken, RealAccessToken, AccessToken}
+import io.github.meln1k.vkApi.utils.{AccessToken, DeferredAccessToken, FakeAccessToken, PredefinedAccessToken}
 
 
 class Api(token: AccessToken) {
@@ -73,9 +75,10 @@ class Api(token: AccessToken) {
 
 object Api extends {
 
-  def fromLoginPass(login: String, password: String) = ???
+  def fromLoginPass(login: String, password: String, appId: String, scope: Set[Permission] = Permission.values) =
+    new Api(DeferredAccessToken(login, password, appId, scope))
 
-  def withAccessToken(accessToken: String) = new Api(RealAccessToken(accessToken))
+  def withAccessToken(accessToken: String) = new Api(PredefinedAccessToken(accessToken))
 
   def anonymous = new Api(FakeAccessToken)
 
